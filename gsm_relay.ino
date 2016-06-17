@@ -1,7 +1,5 @@
+#include "config.h" // see sample_config.h and save as config.h
 #include <SoftwareSerial.h>
-
-#define tel1 "380991234567" // sample
-#define tel2 "380981234567" // sample
 
 #define R1 4 // relay #1 pin
 #define R2 5 // relay #2 pin
@@ -20,9 +18,9 @@ SoftwareSerial gsm(2, 3); // RX, TX
 
 
 void setup() {
-  Serial.begin(38400);
+  Serial.begin(9600);
   delay(5000);
-  gsm.begin(38400);
+  gsm.begin(9600);
   delay(1000);
   gsmSetup();
 
@@ -130,10 +128,14 @@ void mainControl(String arg1, String arg2, String arg3) {
   else if (arg1.equals("+CMT:")) {
     tel = arg2.substring(2, 14); // detect phone number from incoming sms
   }
+  else if (arg1.equals("RING")) {
+    gsm.println("AT+CLIP=1");
+    delay(100);
+  }
   else if (arg1.equals("+CLIP:")) {
     tel = arg2.substring(1, 13); // detect phone number from incoming call
     // Serial.println(tel);
-    if ((tel == tel1 || tel == tel2)) {
+    if ((tel == TEL1 || tel == TEL2)) {
       Serial.println("Phone number in white list!");
       checkRelays();
       gsm.println("AT+CLIP=0");
