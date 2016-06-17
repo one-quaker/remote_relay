@@ -3,8 +3,8 @@
 #define tel1 "380991234567" // sample
 #define tel2 "380981234567" // sample
 
-#define R1 4
-#define R2 5
+#define R1 4 // relay #1 pin
+#define R2 5 // relay #2 pin
 
 String r1State = "OFF";
 String r2State = "OFF";
